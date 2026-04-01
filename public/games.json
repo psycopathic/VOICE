@@ -1,0 +1,281 @@
+{
+  "games": [
+    {
+      "id": "valor-strike",
+      "name": "Valor Strike",
+      "description": "Competitive 5v5 tactical mode with seasonal ranking.",
+      "metricLabel": "Rating",
+      "currentUserId": "v-ryu",
+      "players": [
+        {
+          "id": "v-echo",
+          "player": "Echo Blaze",
+          "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+          "team": "Nova Squad",
+          "score": 98140,
+          "coins": 120,
+          "streak": 6,
+          "trend": 9,
+          "status": "Win streak: 6"
+        },
+        {
+          "id": "v-jax",
+          "player": "Jax Riven",
+          "avatarUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+          "team": "Iron Pact",
+          "score": 96820,
+          "coins": 108,
+          "streak": 4,
+          "trend": 4,
+          "status": "Top 3 in 4 matches"
+        },
+        {
+          "id": "v-mira",
+          "player": "Mira Sol",
+          "avatarUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80",
+          "team": "Pulse Guild",
+          "score": 95210,
+          "coins": 95,
+          "streak": 3,
+          "trend": -2,
+          "status": "Clutch ratio: 69%"
+        },
+        {
+          "id": "v-ryu",
+          "player": "Ryu Vale",
+          "team": "Apex Core",
+          "score": 94575,
+          "coins": 89,
+          "streak": 2,
+          "trend": 1,
+          "status": "Weekend qualifiers"
+        },
+        {
+          "id": "v-nora",
+          "player": "Nora Beam",
+          "team": "Nova Squad",
+          "score": 93920,
+          "puzzlesPlayed": 31,
+          "levelLabel": "Level 10: Puzzle Master",
+          "status": "On a focus streak"
+        },
+        {
+          "id": "v-kian",
+          "player": "Kian Byte",
+          "team": "Iron Pact",
+          "score": 93275,
+          "puzzlesPlayed": 29,
+          "levelLabel": "Level 10: Puzzle Master",
+          "status": "Steady climb"
+        },
+        {
+          "id": "v-zoe",
+          "player": "Zoe Spark",
+          "team": "Apex Core",
+          "score": 92810,
+          "puzzlesPlayed": 34,
+          "levelLabel": "Level 9: Puzzle Ranger",
+          "status": "Great consistency"
+        },
+        {
+          "id": "v-omar",
+          "player": "Omar Quest",
+          "team": "Pulse Guild",
+          "score": 92360,
+          "puzzlesPlayed": 28,
+          "levelLabel": "Level 9: Puzzle Ranger",
+          "status": "Almost top 10"
+        },
+        {
+          "id": "v-ivy",
+          "player": "Ivy Dot",
+          "team": "Nova Squad",
+          "score": 91995,
+          "puzzlesPlayed": 30,
+          "levelLabel": "Level 9: Puzzle Ranger",
+          "status": "Strong momentum"
+        },
+        {
+          "id": "v-noel",
+          "player": "Noel Grid",
+          "team": "Iron Pact",
+          "score": 91550,
+          "puzzlesPlayed": 27,
+          "levelLabel": "Level 8: Puzzle Explorer",
+          "status": "Great improvement"
+        },
+        {
+          "id": "v-aria",
+          "player": "Aria Loop",
+          "team": "Pulse Guild",
+          "score": 91220,
+          "puzzlesPlayed": 26,
+          "levelLabel": "Level 8: Puzzle Explorer",
+          "status": "Challenge complete"
+        },
+        {
+          "id": "v-felix",
+          "player": "Felix Nova",
+          "team": "Apex Core",
+          "score": 90890,
+          "puzzlesPlayed": 25,
+          "levelLabel": "Level 8: Puzzle Explorer",
+          "status": "Bonus round winner"
+        }
+      ]
+    },
+    {
+      "id": "drift-legend",
+      "name": "Drift Legend",
+      "description": "Arcade racing leaderboard based on cumulative points.",
+      "metricLabel": "Points",
+      "currentUserId": "d-zuri",
+      "players": [
+        {
+          "id": "d-kai",
+          "player": "Kai Storm",
+          "avatarUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80",
+          "team": "Nitro Unit",
+          "score": 124550,
+          "coins": 150,
+          "streak": 8,
+          "trend": 7,
+          "status": "Perfect lap: 3"
+        },
+        {
+          "id": "d-lena",
+          "player": "Lena Drift",
+          "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
+          "team": "Turbo Nine",
+          "score": 121040,
+          "coins": 142,
+          "streak": 5,
+          "trend": 2,
+          "status": "Podium streak"
+        },
+        {
+          "id": "d-orin",
+          "player": "Orin Chase",
+          "team": "Streetline",
+          "score": 118990,
+          "coins": 128,
+          "streak": 4,
+          "trend": -1,
+          "status": "Ranked circuit"
+        },
+        {
+          "id": "d-zuri",
+          "player": "Zuri Lane",
+          "team": "Velocity Lab",
+          "score": 117480,
+          "coins": 121,
+          "streak": 3,
+          "trend": 0,
+          "status": "Stable pace"
+        }
+      ]
+    },
+    {
+      "id": "arena-clash",
+      "name": "Arena Clash",
+      "description": "MOBA ladder showing top players by performance score.",
+      "metricLabel": "Performance",
+      "currentUserId": "a-mika",
+      "players": [
+        {
+          "id": "a-raven",
+          "player": "Raven Frost",
+          "avatarUrl": "https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=200&q=80",
+          "team": "Orbit",
+          "score": 87120,
+          "coins": 110,
+          "streak": 7,
+          "trend": 11,
+          "status": "MVP streak"
+        },
+        {
+          "id": "a-atlas",
+          "player": "Atlas Vee",
+          "avatarUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80",
+          "team": "Northline",
+          "score": 85910,
+          "coins": 103,
+          "streak": 5,
+          "trend": 3,
+          "status": "Top lane specialist"
+        },
+        {
+          "id": "a-finn",
+          "player": "Finn Arrow",
+          "team": "Vanguard",
+          "score": 84260,
+          "coins": 99,
+          "streak": 2,
+          "trend": -3,
+          "status": "Patch transition"
+        },
+        {
+          "id": "a-mika",
+          "player": "Mika Rune",
+          "team": "Dawnfire",
+          "score": 83675,
+          "coins": 95,
+          "streak": 2,
+          "trend": 1,
+          "status": "Objective control"
+        }
+      ]
+    },
+    {
+        "id": "skyward-battle",
+        "name": "Skyward Battle",
+        "description": "Aerial combat leaderboard ranked by kill-death ratio.",
+        "metricLabel": "K/D Ratio",
+        "currentUserId": "s-echo",
+        "players": [
+            {
+            "id": "s-lyra",
+            "player": "Lyra Gale",
+            "avatarUrl": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=200&q=80",
+            "team": "Cloudbreakers",
+            "score": 3.75,
+            "coins": 72,
+            "streak": 4,
+            "trend": 0.15,
+            "status": "Air superiority"
+            },
+            {
+            "id": "s-jett",
+            "player": "Jett Storm",
+            "avatarUrl": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=200&q=80",
+            "team": "Skyward Legion",
+            "score": 3.60,
+            "coins": 68,
+            "streak": 4,
+            "trend": 0.10,
+            "status": "Aggressive playstyle"
+            },
+            {
+            "id": "s-nova",
+            "player": "Nova Skye",
+            "team": "Aerial Vanguard",
+            "score": 3.45,
+            "coins": 63,
+            "streak": 3,
+            "trend": -0.05,
+            "status": "Defensive specialist"
+            },
+            {
+            "id": "s-echo",
+            "player": "Echo Storm",
+            "team": "Windriders",
+            "score": 3.30,
+            "coins": 58,
+            "streak": 2,
+            "trend": -0.10,
+            "status": "Mixed performance"
+            }
+        ]
+    }
+  ]
+}

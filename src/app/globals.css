@@ -128,3 +128,29 @@
     @apply font-sans;
   }
 }
+
+@keyframes floaty {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0.7;
+  }
+}
+
+@layer utilities {
+  .animate-floaty {
+    animation: floaty 2.8s ease-in-out infinite;
+  }
+
+  .animate-floaty-delayed {
+    animation: floaty 3.4s ease-in-out infinite;
+    animation-delay: 0.7s;
+  }
+}
