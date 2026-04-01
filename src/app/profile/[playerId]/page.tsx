@@ -139,29 +139,29 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
             <div className="grid gap-8 sm:grid-cols-2">
               <dl className="space-y-2 text-base font-semibold text-[#33495f]">
                 <div className="flex gap-3">
-                  <dt className="min-w-[10rem]">Level:</dt>
+                  <dt className="min-w-40">Level:</dt>
                   <dd>{entry.levelLabel ?? "Level 11"}</dd>
                 </div>
                 <div className="flex gap-3">
-                  <dt className="min-w-[10rem]">Total Points:</dt>
+                  <dt className="min-w-40">Total Points:</dt>
                   <dd>{formatScore(totalPoints)} points</dd>
                 </div>
                 <div className="flex gap-3">
-                  <dt className="min-w-[10rem]">Last 7 Days Points:</dt>
+                  <dt className="min-w-40">Last 7 Days Points:</dt>
                   <dd>{formatScore(last7DaysPoints)} points</dd>
                 </div>
                 <div className="flex gap-3">
-                  <dt className="min-w-[10rem]">Last 7 Days Place:</dt>
+                  <dt className="min-w-40">Last 7 Days Place:</dt>
                   <dd>
                     {entry.rank} / {getRankedPlayers(game).length}
                   </dd>
                 </div>
                 <div className="flex gap-3">
-                  <dt className="min-w-[10rem]">Puzzles Completed:</dt>
+                  <dt className="min-w-40">Puzzles Completed:</dt>
                   <dd>{formatScore(puzzlesCompleted)} puzzles</dd>
                 </div>
                 <div className="flex gap-3">
-                  <dt className="min-w-[10rem]">Member Since:</dt>
+                  <dt className="min-w-40">Member Since:</dt>
                   <dd>{getMemberSince(entry.id)}</dd>
                 </div>
               </dl>
