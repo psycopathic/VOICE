@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Leaderboard, type LeaderboardEntry } from "@/components/leaderboard";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Pagination } from "@/components/ui/pagination";
 import {
   Select,
@@ -13,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search } from "lucide-react";
+import { Search, Trophy, Crown, Medal, Flame, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type GamePlayer = Omit<LeaderboardEntry, "rank">;
@@ -30,6 +29,129 @@ type GameData = {
 type GamesResponse = {
   games: GameData[];
 };
+
+function formatScore(score: number) {
+  if (score % 1 !== 0) return score.toFixed(2);
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(score);
+}
+
+function PodiumCard({
+  entry,
+  position,
+  metricLabel,
+  selectedGameId,
+}: {
+  entry: LeaderboardEntry;
+  position: 1 | 2 | 3;
+  metricLabel: string;
+  selectedGameId?: string;
+}) {
+  const configs = {
+    1: {
+      gradient: "from-amber-500/20 via-yellow-500/10 to-transparent",
+      glow: "glow-gold",
+      textGradient: "text-gradient-gold",
+      badgeClass: "rank-badge-gold",
+      icon: <Crown className="h-5 w-5" />,
+      ringColor: "ring-amber-500/30",
+      size: "sm:col-start-2 sm:row-start-1",
+      heightClass: "sm:pb-6",
+    },
+    2: {
+      gradient: "from-slate-400/15 via-slate-300/5 to-transparent",
+      glow: "glow-silver",
+      textGradient: "text-gradient-silver",
+      badgeClass: "rank-badge-silver",
+      icon: <Medal className="h-4 w-4" />,
+      ringColor: "ring-slate-400/20",
+      size: "sm:col-start-1 sm:row-start-1",
+      heightClass: "sm:pt-4",
+    },
+    3: {
+      gradient: "from-orange-600/15 via-orange-500/5 to-transparent",
+      glow: "glow-bronze",
+      textGradient: "text-gradient-bronze",
+      badgeClass: "rank-badge-bronze",
+      icon: <Medal className="h-4 w-4" />,
+      ringColor: "ring-orange-600/20",
+      size: "sm:col-start-3 sm:row-start-1",
+      heightClass: "sm:pt-8",
+    },
+  };
+
+  const config = configs[position];
+
+  return (
+    <a
+      href={`/profile/${entry.id}${selectedGameId ? `?game=${selectedGameId}` : ""}`}
+      className={cn(
+        "podium-card group flex flex-col items-center gap-3 rounded-2xl p-5 text-center",
+        "bg-gradient-to-b",
+        config.gradient,
+        config.glow,
+        config.size,
+        config.heightClass,
+        "animate-scale-in"
+      )}
+      style={{ animationDelay: `${(position - 1) * 100}ms` }}
+    >
+      {/* Rank badge */}
+      <div
+        className={cn(
+          "flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold",
+          config.badgeClass
+        )}
+      >
+        {position === 1 ? config.icon : `#${position}`}
+      </div>
+
+      {/* Avatar circle */}
+      <div
+        className={cn(
+          "flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br ring-2",
+          config.ringColor,
+          position === 1
+            ? "from-amber-500/20 to-yellow-600/10"
+            : position === 2
+            ? "from-slate-400/20 to-slate-500/10"
+            : "from-orange-500/20 to-orange-600/10"
+        )}
+      >
+        <Trophy
+          className={cn(
+            "h-7 w-7",
+            position === 1
+              ? "text-amber-400"
+              : position === 2
+              ? "text-slate-300"
+              : "text-orange-400"
+          )}
+        />
+      </div>
+
+      {/* Player name */}
+      <div>
+        <div
+          className={cn(
+            "text-lg font-bold tracking-tight transition-colors group-hover:brightness-125",
+            config.textGradient
+          )}
+        >
+          {entry.player}
+        </div>
+        <div className="mt-0.5 text-xs text-slate-500">
+          {entry.levelLabel ?? "Level 11: Grand Master"}
+        </div>
+      </div>
+
+      {/* Score */}
+      <div className="mt-auto flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200">
+        <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
+        {formatScore(entry.score)} {metricLabel}
+      </div>
+    </a>
+  );
+}
 
 export function GameLeaderboard() {
   const pageSize = 10;
@@ -109,13 +231,20 @@ export function GameLeaderboard() {
       }));
   }, [search, selectedGame]);
 
+  // Paginate the full ranked list (always 10 per page).
+  // On page 1 (when not searching), the first 3 become the podium
+  // and the remaining 7 fill the table — still 10 total.
   const totalItems = rankedEntries.length;
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
 
-  const paginatedEntries = useMemo(() => {
+  const pageSlice = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     return rankedEntries.slice(startIndex, startIndex + pageSize);
   }, [currentPage, rankedEntries]);
+
+  const showPodium = !search && currentPage === 1 && pageSlice.length >= 3;
+  const podiumEntries = showPodium ? pageSlice.slice(0, 3) : [];
+  const paginatedEntries = showPodium ? pageSlice.slice(3) : pageSlice;
 
   const displayStart = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
   const displayEnd = totalItems === 0 ? 0 : Math.min(currentPage * pageSize, totalItems);
@@ -130,112 +259,125 @@ export function GameLeaderboard() {
     }
   }, [currentPage, totalPages]);
 
+  const timeframes = [
+    { key: "last7days", label: "Last 7 Days" },
+    { key: "lastMonth", label: "Last Month" },
+    { key: "allTime", label: "All Time" },
+  ];
+
   return (
-    <div className="flex flex-col gap-4">
-      <div className="rounded-md border border-[#7fd6d8] bg-[#7ea1a8]/85 px-4 py-4 text-center sm:px-8">
-        <p className="text-base font-semibold text-white sm:text-xl">
+    <div className="flex flex-col gap-6">
+      {/* Motivational banner */}
+      <div className="glass-card-light flex items-center gap-3 rounded-xl px-5 py-4 sm:px-8">
+        <Flame className="h-5 w-5 shrink-0 text-amber-400 animate-pulse-glow" />
+        <p className="text-sm font-medium text-slate-300 sm:text-base">
           Keep learning daily to climb the classroom leaderboard.
         </p>
       </div>
 
+      {/* Search bar */}
       <div className="relative">
-        <Search className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
+        <Search className="pointer-events-none absolute left-4 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-slate-500" />
         <input
-          className="h-12 w-full rounded-md border border-[#7fd6d8] bg-white px-4 pr-12 text-base text-slate-700 shadow-sm outline-none placeholder:text-slate-500 focus:ring-2 focus:ring-[#8bd8db]"
-          placeholder="Search"
+          id="search-players"
+          className="search-input h-12 w-full rounded-xl px-12 text-sm text-slate-200 outline-none placeholder:text-slate-500"
+          placeholder="Search players..."
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
       </div>
 
-      <Card className="overflow-hidden rounded-xl border border-[#7fd6d8] bg-white/85">
-        <CardContent className="p-0">
-          <div className="flex flex-wrap items-center gap-4 border-b border-slate-200 px-4 py-4 text-xs sm:px-6">
-            <button
-              type="button"
-              onClick={() => setTimeframe("last7days")}
-              className={cn(
-                "border-b-2 pb-1 font-medium uppercase tracking-wide",
-                timeframe === "last7days"
-                  ? "border-[#72d6d8] text-[#72d6d8]"
-                  : "border-transparent text-slate-500",
-              )}
-            >
-              Last 7 Days
-            </button>
-            <button
-              type="button"
-              onClick={() => setTimeframe("lastMonth")}
-              className={cn(
-                "border-b-2 pb-1 font-medium uppercase tracking-wide",
-                timeframe === "lastMonth"
-                  ? "border-[#72d6d8] text-[#72d6d8]"
-                  : "border-transparent text-slate-500",
-              )}
-            >
-              Last Month
-            </button>
-            <button
-              type="button"
-              onClick={() => setTimeframe("allTime")}
-              className={cn(
-                "border-b-2 pb-1 font-medium uppercase tracking-wide",
-                timeframe === "allTime"
-                  ? "border-[#72d6d8] text-[#72d6d8]"
-                  : "border-transparent text-slate-500",
-              )}
-            >
-              All Time
-            </button>
-
-            <div className="ml-auto w-full sm:w-56">
-              <Select
-                value={selectedGame?.id ?? ""}
-                onValueChange={(value) => setSelectedGameId(String(value))}
+      {/* Main content card */}
+      <div className="glass-card overflow-hidden rounded-2xl">
+        {/* Controls bar */}
+        <div className="flex flex-wrap items-center gap-3 border-b border-white/5 px-5 py-4 sm:px-6">
+          {/* Timeframe tabs */}
+          <div className="flex items-center gap-1 rounded-full bg-white/[0.03] p-1">
+            {timeframes.map((tf) => (
+              <button
+                key={tf.key}
+                type="button"
+                onClick={() => setTimeframe(tf.key)}
+                className={cn("tab-pill", timeframe === tf.key && "active")}
               >
-                <SelectTrigger className="w-full bg-white">
-                  <SelectValue placeholder="Select game" />
-                </SelectTrigger>
-                <SelectContent align="end">
-                  {games.map((game) => (
-                    <SelectItem key={game.id} value={game.id}>
-                      {game.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+                {tf.label}
+              </button>
+            ))}
           </div>
 
-          {errorMessage ? (
-            <Badge variant="destructive" className="m-4 w-fit rounded-full px-3 py-1">
-              {errorMessage}
-            </Badge>
-          ) : null}
+          {/* Game selector */}
+          <div className="ml-auto w-full sm:w-56">
+            <Select
+              value={selectedGame?.id ?? ""}
+              onValueChange={(value) => setSelectedGameId(String(value))}
+            >
+              <SelectTrigger className="w-full rounded-xl border-white/8 bg-white/[0.03] text-slate-300 hover:bg-white/[0.06]">
+                <SelectValue placeholder="Select game" />
+              </SelectTrigger>
+              <SelectContent align="end" className="border-white/8 bg-[#111827]">
+                {games.map((game) => (
+                  <SelectItem key={game.id} value={game.id}>
+                    {game.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
-          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
-            <Leaderboard
-              metricLabel={selectedGame?.metricLabel ?? "Points"}
-              entries={paginatedEntries}
-              selectedGameId={selectedGame?.id}
-              isLoading={isLoading}
-            />
+        {errorMessage ? (
+          <Badge variant="destructive" className="m-4 w-fit rounded-full px-3 py-1">
+            {errorMessage}
+          </Badge>
+        ) : null}
 
-            <div className="mt-4 flex items-center justify-end gap-6 px-2 text-sm text-slate-600">
-              <span>Rows per page:</span>
-              <span className="border-b border-slate-300 px-1 pb-1">10</span>
-              <span>
-                {displayStart}-{displayEnd} of {totalItems}
-              </span>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
+        <div className="px-5 pb-5 pt-2 sm:px-6 sm:pb-6">
+          {/* Top 3 podium */}
+          {showPodium && podiumEntries.length >= 3 && !isLoading && (
+            <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
+              <PodiumCard
+                entry={podiumEntries[1]}
+                position={2}
+                metricLabel={selectedGame?.metricLabel ?? "Points"}
+                selectedGameId={selectedGame?.id}
+              />
+              <PodiumCard
+                entry={podiumEntries[0]}
+                position={1}
+                metricLabel={selectedGame?.metricLabel ?? "Points"}
+                selectedGameId={selectedGame?.id}
+              />
+              <PodiumCard
+                entry={podiumEntries[2]}
+                position={3}
+                metricLabel={selectedGame?.metricLabel ?? "Points"}
+                selectedGameId={selectedGame?.id}
               />
             </div>
+          )}
+
+          {/* Leaderboard table */}
+          <Leaderboard
+            metricLabel={selectedGame?.metricLabel ?? "Points"}
+            entries={paginatedEntries}
+            selectedGameId={selectedGame?.id}
+            isLoading={isLoading}
+            startRank={showPodium ? 4 : undefined}
+          />
+
+          {/* Pagination */}
+          <div className="mt-5 flex items-center justify-between gap-4 text-sm text-slate-500">
+            <span>
+              {displayStart}–{displayEnd} of {totalItems} players
+            </span>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

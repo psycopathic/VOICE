@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Bird, ChevronLeft } from "lucide-react";
-
-import { Card, CardContent } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  Trophy,
+  ChevronLeft,
+  Target,
+  Zap,
+  Calendar,
+  Award,
+  TrendingUp,
+  Gamepad2,
+  Star,
+  Clock,
+} from "lucide-react";
+
 import { getGamesData, getRankedPlayers, type GameData } from "@/lib/games-data";
 
 type ProfilePageProps = {
@@ -91,6 +93,39 @@ function findPlayerGame(games: GameData[], playerId: string, preferredGameId?: s
   return null;
 }
 
+function StatCard({
+  icon,
+  label,
+  value,
+  color,
+  delay,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  color: string;
+  delay: number;
+}) {
+  return (
+    <div
+      className="stat-card animate-slide-up flex items-center gap-4"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <div
+        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${color}`}
+      >
+        {icon}
+      </div>
+      <div className="min-w-0">
+        <div className="text-xs font-medium uppercase tracking-wider text-slate-500">
+          {label}
+        </div>
+        <div className="mt-0.5 truncate text-lg font-bold text-slate-200">{value}</div>
+      </div>
+    </div>
+  );
+}
+
 export default async function ProfilePage({ params, searchParams }: ProfilePageProps) {
   const { playerId } = await params;
   const { game: gameId } = await searchParams;
@@ -108,103 +143,157 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
   const totalPoints = Math.round(entry.score * 6);
   const last7DaysPoints = recentRows.slice(0, 7).reduce((sum, row) => sum + row.total, 0);
   const puzzlesCompleted = (entry.puzzlesPlayed ?? 30) * 102;
+  const totalPlayers = getRankedPlayers(game).length;
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#b9eaff_0%,#a8e2ff_45%,#95d8ff_100%)] px-4 pb-10 pt-6 sm:px-6 lg:px-8">
+    <main className="bg-mesh min-h-screen px-4 pb-12 pt-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <header className="rounded-xl border border-[#7fd6d8] bg-[#74c8ea]/90 py-8 text-center text-[#f1f37a]">
-          <div className="inline-flex items-center gap-3">
-            <Bird className="h-10 w-10 text-[#95e4e6]" />
-            <h1 className="text-3xl font-bold tracking-wide sm:text-4xl">PROFILE</h1>
-          </div>
-        </header>
-
+        {/* Back link */}
         <Link
           href="/"
-          className="inline-flex w-fit items-center gap-2 rounded-md bg-white/80 px-3 py-2 text-sm font-medium text-slate-700 ring-1 ring-[#7fd6d8] transition-colors hover:bg-white"
+          className="inline-flex w-fit items-center gap-2 rounded-xl bg-white/[0.04] px-4 py-2.5 text-sm font-medium text-slate-400 ring-1 ring-white/8 transition-all hover:bg-white/[0.08] hover:text-slate-200"
         >
           <ChevronLeft className="h-4 w-4" />
           Back to leaderboard
         </Link>
 
-        <Card className="rounded-xl border border-[#7fd6d8] bg-white/86 py-0">
-          <CardContent className="space-y-6 px-6 py-6 sm:px-8">
-            <div className="flex items-center justify-center gap-3 text-[#2d4058]">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#f7f36a] text-[#6a5f00] ring-1 ring-[#d8cf58]">
-                <Bird className="h-5 w-5" />
-              </span>
-              <h2 className="text-2xl font-semibold">{entry.player}</h2>
-            </div>
+        {/* Profile hero card */}
+        <div className="glass-card glow-purple relative overflow-hidden rounded-2xl">
+          {/* Background orbs */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-violet-500/8 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-indigo-500/8 blur-3xl" />
 
-            <div className="grid gap-8 sm:grid-cols-2">
-              <dl className="space-y-2 text-base font-semibold text-[#33495f]">
-                <div className="flex gap-3">
-                  <dt className="min-w-40">Level:</dt>
-                  <dd>{entry.levelLabel ?? "Level 11"}</dd>
+          <div className="relative z-10 px-6 py-8 sm:px-10 sm:py-10">
+            <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
+              {/* Avatar */}
+              <div className="relative">
+                <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-indigo-600/15 ring-2 ring-violet-500/20 sm:h-28 sm:w-28">
+                  <Trophy className="h-10 w-10 text-violet-400 sm:h-12 sm:w-12" />
                 </div>
-                <div className="flex gap-3">
-                  <dt className="min-w-40">Total Points:</dt>
-                  <dd>{formatScore(totalPoints)} points</dd>
+                {/* Rank badge */}
+                <div className="absolute -bottom-2 -right-2 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 text-sm font-bold text-white shadow-lg shadow-violet-500/20">
+                  #{entry.rank}
                 </div>
-                <div className="flex gap-3">
-                  <dt className="min-w-40">Last 7 Days Points:</dt>
-                  <dd>{formatScore(last7DaysPoints)} points</dd>
-                </div>
-                <div className="flex gap-3">
-                  <dt className="min-w-40">Last 7 Days Place:</dt>
-                  <dd>
-                    {entry.rank} / {getRankedPlayers(game).length}
-                  </dd>
-                </div>
-                <div className="flex gap-3">
-                  <dt className="min-w-40">Puzzles Completed:</dt>
-                  <dd>{formatScore(puzzlesCompleted)} puzzles</dd>
-                </div>
-                <div className="flex gap-3">
-                  <dt className="min-w-40">Member Since:</dt>
-                  <dd>{getMemberSince(entry.id)}</dd>
-                </div>
-              </dl>
+              </div>
 
-              <div className="self-center text-right text-[#415a72]">
-                <div className="text-2xl font-semibold">{game.name}</div>
-                <div className="text-lg">Rank #{entry.rank}</div>
-                <div className="text-lg">
-                  {formatScore(entry.score)} {game.metricLabel ?? "points"}
+              {/* Player info */}
+              <div className="flex-1 text-center sm:text-left">
+                <h1 className="text-gradient text-3xl font-bold tracking-tight sm:text-4xl">
+                  {entry.player}
+                </h1>
+                <p className="mt-1 text-sm text-slate-400">
+                  {entry.levelLabel ?? "Level 11: Grand Master"}
+                </p>
+
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-300 ring-1 ring-violet-500/20">
+                    <Gamepad2 className="h-3 w-3" />
+                    {game.name}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300 ring-1 ring-emerald-500/20">
+                    <TrendingUp className="h-3 w-3" />
+                    {formatScore(entry.score)} {game.metricLabel ?? "points"}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-300 ring-1 ring-amber-500/20">
+                    <Star className="h-3 w-3" />
+                    Top {Math.round((entry.rank / totalPlayers) * 100)}%
+                  </span>
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="rounded-xl border border-[#7fd6d8] bg-white/86 py-0">
-          <CardContent className="px-4 py-5 sm:px-6">
-            <h3 className="pb-4 text-center text-3xl font-semibold text-[#2d4058]">Recent Puzzles</h3>
+        {/* Stats grid */}
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+          <StatCard
+            icon={<Target className="h-5 w-5 text-violet-400" />}
+            label="Total Points"
+            value={`${formatScore(totalPoints)}`}
+            color="bg-violet-500/10"
+            delay={0}
+          />
+          <StatCard
+            icon={<Zap className="h-5 w-5 text-amber-400" />}
+            label="7-Day Points"
+            value={`${formatScore(last7DaysPoints)}`}
+            color="bg-amber-500/10"
+            delay={50}
+          />
+          <StatCard
+            icon={<Award className="h-5 w-5 text-emerald-400" />}
+            label="7-Day Rank"
+            value={`${entry.rank} / ${totalPlayers}`}
+            color="bg-emerald-500/10"
+            delay={100}
+          />
+          <StatCard
+            icon={<Gamepad2 className="h-5 w-5 text-sky-400" />}
+            label="Puzzles Done"
+            value={`${formatScore(puzzlesCompleted)}`}
+            color="bg-sky-500/10"
+            delay={150}
+          />
+          <StatCard
+            icon={<Calendar className="h-5 w-5 text-pink-400" />}
+            label="Member Since"
+            value={getMemberSince(entry.id)}
+            color="bg-pink-500/10"
+            delay={200}
+          />
+          <StatCard
+            icon={<Clock className="h-5 w-5 text-cyan-400" />}
+            label="Current Game"
+            value={game.name}
+            color="bg-cyan-500/10"
+            delay={250}
+          />
+        </div>
 
-            <Table>
-              <TableHeader>
-                <TableRow className="border-b border-slate-200 bg-transparent text-xs uppercase tracking-wide">
-                  <TableHead className="text-[#5c5c5c]">Date</TableHead>
-                  <TableHead className="text-right text-[#5c5c5c]">Word Points</TableHead>
-                  <TableHead className="text-right text-[#5c5c5c]">Letter Reveals Left</TableHead>
-                  <TableHead className="text-right text-[#5c5c5c]">Wager</TableHead>
-                  <TableHead className="text-right text-[#5c5c5c]">Total Points</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recentRows.map((row) => (
-                  <TableRow key={row.date} className="border-b border-slate-200/80">
-                    <TableCell className="text-sm text-[#4a4a4a]">{row.date}</TableCell>
-                    <TableCell className="text-right text-sm text-[#4a4a4a]">{formatScore(row.wordPoints)}</TableCell>
-                    <TableCell className="text-right text-sm text-[#4a4a4a]">{row.reveals}</TableCell>
-                    <TableCell className="text-right text-sm text-[#1f8b35]">{formatScore(row.wager)}</TableCell>
-                    <TableCell className="text-right text-sm text-[#4a4a4a]">{formatScore(row.total)}</TableCell>
-                  </TableRow>
+        {/* Recent puzzles table */}
+        <div className="glass-card overflow-hidden rounded-2xl">
+          <div className="border-b border-white/5 px-6 py-5">
+            <h2 className="text-xl font-bold text-slate-200">Recent Puzzles</h2>
+            <p className="mt-1 text-sm text-slate-500">Your last 10 puzzle results</p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/5 text-xs uppercase tracking-wider text-slate-500">
+                  <th className="px-6 py-3.5 text-left font-medium">Date</th>
+                  <th className="px-6 py-3.5 text-right font-medium">Word Points</th>
+                  <th className="px-6 py-3.5 text-right font-medium">Reveals Left</th>
+                  <th className="px-6 py-3.5 text-right font-medium">Wager</th>
+                  <th className="px-6 py-3.5 text-right font-medium">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentRows.map((row, index) => (
+                  <tr
+                    key={row.date}
+                    className="lb-row border-b border-white/[0.04] hover:bg-transparent"
+                    style={{ animationDelay: `${index * 30}ms` }}
+                  >
+                    <td className="px-6 py-3.5 text-sm text-slate-300">{row.date}</td>
+                    <td className="px-6 py-3.5 text-right text-sm font-medium tabular-nums text-slate-300">
+                      {formatScore(row.wordPoints)}
+                    </td>
+                    <td className="px-6 py-3.5 text-right text-sm tabular-nums text-slate-400">
+                      {row.reveals}
+                    </td>
+                    <td className="px-6 py-3.5 text-right text-sm font-medium tabular-nums text-emerald-400">
+                      +{formatScore(row.wager)}
+                    </td>
+                    <td className="px-6 py-3.5 text-right text-sm font-bold tabular-nums text-slate-200">
+                      {formatScore(row.total)}
+                    </td>
+                  </tr>
                 ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </main>
   );

@@ -33,7 +33,7 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
   const disableNext = currentPage >= totalPages;
 
   return (
-    <div className={cn("flex items-center justify-end gap-2", className)}>
+    <div className={cn("flex items-center justify-end gap-1.5", className)}>
       <button
         type="button"
         aria-label="Previous page"
@@ -43,7 +43,7 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
             onPageChange(currentPage - 1);
           }
         }}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-600 transition-colors hover:bg-slate-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+        className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/8 bg-white/[0.03] text-slate-400 transition-all hover:bg-white/[0.06] hover:text-slate-200 aria-disabled:cursor-not-allowed aria-disabled:opacity-30"
       >
         <ChevronLeft className="h-4 w-4" />
       </button>
@@ -51,7 +51,7 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
       {pageItems.map((item, index) => {
         if (item === "...") {
           return (
-            <span key={`ellipsis-${index}`} className="px-1 text-sm text-slate-500">
+            <span key={`ellipsis-${index}`} className="px-1 text-sm text-slate-600">
               ...
             </span>
           );
@@ -63,10 +63,10 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
             type="button"
             onClick={() => onPageChange(item)}
             className={cn(
-              "inline-flex h-8 min-w-8 items-center justify-center rounded-md border px-2 text-sm transition-colors",
+              "inline-flex h-8 min-w-8 items-center justify-center rounded-lg border px-2 text-sm font-medium transition-all",
               item === currentPage
-                ? "border-[#72d6d8] bg-[#e9fbfb] text-[#2a8e90]"
-                : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50",
+                ? "border-violet-500/30 bg-violet-500/15 text-violet-300 shadow-[0_0_12px_rgba(167,139,250,0.1)]"
+                : "border-white/8 bg-white/[0.03] text-slate-400 hover:bg-white/[0.06] hover:text-slate-200",
             )}
           >
             {item}
@@ -83,7 +83,7 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
             onPageChange(currentPage + 1);
           }
         }}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-600 transition-colors hover:bg-slate-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+        className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/8 bg-white/[0.03] text-slate-400 transition-all hover:bg-white/[0.06] hover:text-slate-200 aria-disabled:cursor-not-allowed aria-disabled:opacity-30"
       >
         <ChevronRight className="h-4 w-4" />
       </button>
