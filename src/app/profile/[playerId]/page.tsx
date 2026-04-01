@@ -151,7 +151,7 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
         {/* Back link */}
         <Link
           href="/"
-          className="inline-flex w-fit items-center gap-2 rounded-xl bg-white/[0.04] px-4 py-2.5 text-sm font-medium text-slate-400 ring-1 ring-white/8 transition-all hover:bg-white/[0.08] hover:text-slate-200"
+          className="inline-flex w-fit items-center gap-2 rounded-xl bg-white/4 px-4 py-2.5 text-sm font-medium text-slate-400 ring-1 ring-white/8 transition-all hover:bg-white/8 hover:text-slate-200"
         >
           <ChevronLeft className="h-4 w-4" />
           Back to leaderboard
@@ -167,11 +167,11 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
             <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
               {/* Avatar */}
               <div className="relative">
-                <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-indigo-600/15 ring-2 ring-violet-500/20 sm:h-28 sm:w-28">
+                <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-linear-to-br from-violet-500/20 to-indigo-600/15 ring-2 ring-violet-500/20 sm:h-28 sm:w-28">
                   <Trophy className="h-10 w-10 text-violet-400 sm:h-12 sm:w-12" />
                 </div>
                 {/* Rank badge */}
-                <div className="absolute -bottom-2 -right-2 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 text-sm font-bold text-white shadow-lg shadow-violet-500/20">
+                <div className="absolute -bottom-2 -right-2 flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-violet-500 to-indigo-600 text-sm font-bold text-white shadow-lg shadow-violet-500/20">
                   #{entry.rank}
                 </div>
               </div>
@@ -272,7 +272,7 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
                 {recentRows.map((row, index) => (
                   <tr
                     key={row.date}
-                    className="lb-row border-b border-white/[0.04] hover:bg-transparent"
+                    className="lb-row border-b border-white/4 hover:bg-transparent"
                     style={{ animationDelay: `${index * 30}ms` }}
                   >
                     <td className="px-6 py-3.5 text-sm text-slate-300">{row.date}</td>

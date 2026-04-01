@@ -72,11 +72,11 @@ export function Leaderboard({
   startRank,
 }: LeaderboardProps) {
   return (
-    <div className="overflow-hidden rounded-xl border border-white/5 bg-white/[0.02]">
+    <div className="overflow-hidden rounded-xl border border-white/5 bg-white/2">
       <ScrollArea className="w-full">
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-white/5 bg-white/[0.02] text-xs uppercase tracking-wider">
+            <TableRow className="border-b border-white/5 bg-white/2 text-xs uppercase tracking-wider">
               <TableHead className="w-20 text-slate-500">Rank</TableHead>
               <TableHead className="text-slate-500">Player</TableHead>
               <TableHead className="text-right text-slate-500">{metricLabel}</TableHead>
@@ -103,11 +103,11 @@ export function Leaderboard({
                 return (
                   <TableRow
                     key={entry.id}
-                    className="lb-row border-b border-white/[0.04] hover:bg-transparent"
+                    className="lb-row border-b border-white/4 hover:bg-transparent"
                     style={{ animationDelay: `${index * 30}ms` }}
                   >
                     <TableCell className="py-3.5">
-                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/[0.04] text-sm font-semibold text-slate-400">
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/4 text-sm font-semibold text-slate-400">
                         {displayRank}
                       </span>
                     </TableCell>

@@ -86,7 +86,7 @@ function PodiumCard({
       href={`/profile/${entry.id}${selectedGameId ? `?game=${selectedGameId}` : ""}`}
       className={cn(
         "podium-card group flex flex-col items-center gap-3 rounded-2xl p-5 text-center",
-        "bg-gradient-to-b",
+        "bg-linear-to-b",
         config.gradient,
         config.glow,
         config.size,
@@ -108,7 +108,7 @@ function PodiumCard({
       {/* Avatar circle */}
       <div
         className={cn(
-          "flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br ring-2",
+          "flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br ring-2",
           config.ringColor,
           position === 1
             ? "from-amber-500/20 to-yellow-600/10"
@@ -292,7 +292,7 @@ export function GameLeaderboard() {
         {/* Controls bar */}
         <div className="flex flex-wrap items-center gap-3 border-b border-white/5 px-5 py-4 sm:px-6">
           {/* Timeframe tabs */}
-          <div className="flex items-center gap-1 rounded-full bg-white/[0.03] p-1">
+          <div className="flex items-center gap-1 rounded-full bg-white/3 p-1">
             {timeframes.map((tf) => (
               <button
                 key={tf.key}
@@ -311,7 +311,7 @@ export function GameLeaderboard() {
               value={selectedGame?.id ?? ""}
               onValueChange={(value) => setSelectedGameId(String(value))}
             >
-              <SelectTrigger className="w-full rounded-xl border-white/8 bg-white/[0.03] text-slate-300 hover:bg-white/[0.06]">
+              <SelectTrigger className="w-full rounded-xl border-white/8 bg-white/3 text-slate-300 hover:bg-white/6">
                 <SelectValue placeholder="Select game" />
               </SelectTrigger>
               <SelectContent align="end" className="border-white/8 bg-[#111827]">
