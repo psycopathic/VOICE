@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Leaderboard, type LeaderboardEntry } from "@/components/leaderboard";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,10 @@ type GameData = {
 
 type GamesResponse = {
   games: GameData[];
+};
+
+type GameLeaderboardProps = {
+  initialGameId?: string;
 };
 
 function formatScore(score: number) {
@@ -153,8 +158,9 @@ function PodiumCard({
   );
 }
 
-export function GameLeaderboard() {
+export function GameLeaderboard({ initialGameId }: GameLeaderboardProps) {
   const pageSize = 10;
+  const router = useRouter();
 
   const [games, setGames] = useState<GameData[]>([]);
   const [selectedGameId, setSelectedGameId] = useState<string>("");
@@ -186,7 +192,7 @@ export function GameLeaderboard() {
         }
 
         setGames(fetchedGames);
-        setSelectedGameId((current) => current || fetchedGames[0]?.id || "");
+        setSelectedGameId((current) => current || initialGameId || fetchedGames[0]?.id || "");
       } catch {
         if (isMounted) {
           setErrorMessage("Could not load leaderboard data. Please try again.");
@@ -205,7 +211,13 @@ export function GameLeaderboard() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [initialGameId]);
+
+  useEffect(() => {
+    if (initialGameId) {
+      setSelectedGameId(initialGameId);
+    }
+  }, [initialGameId]);
 
   const selectedGame = useMemo(
     () => games.find((game) => game.id === selectedGameId) ?? games[0],
@@ -309,7 +321,11 @@ export function GameLeaderboard() {
           <div className="ml-auto w-full sm:w-56">
             <Select
               value={selectedGame?.id ?? ""}
-              onValueChange={(value) => setSelectedGameId(String(value))}
+                onValueChange={(value) => {
+                  const nextGameId = String(value);
+                  setSelectedGameId(nextGameId);
+                  router.push(`/game/${nextGameId}`);
+                }}
             >
               <SelectTrigger className="w-full rounded-xl border-white/8 bg-white/3 text-slate-300 hover:bg-white/6">
                 <SelectValue placeholder="Select game" />
