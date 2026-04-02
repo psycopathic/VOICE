@@ -1,4 +1,4 @@
-import { GameLeaderboard } from "@/components/game-leaderboard";
+import { ApiLeaderboard } from "@/components/api-leaderboard";
 import { Trophy, Sparkles } from "lucide-react";
 
 export default function Home() {
@@ -30,7 +30,7 @@ export default function Home() {
           </div>
         </header>
 
-        <GameLeaderboard />
+        <ApiLeaderboard />
       </div>
     </main>
   );

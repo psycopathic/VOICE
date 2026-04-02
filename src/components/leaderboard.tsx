@@ -114,7 +114,7 @@ export function Leaderboard({
 
                     <TableCell className="py-3.5">
                       <Link
-                        href={`/profile/${entry.id}${selectedGameId ? `?game=${selectedGameId}` : ""}`}
+                        href={`/profile/${entry.id}`}
                         className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50"
                       >
                         <Avatar className="h-9 w-9 ring-1 ring-white/10">
